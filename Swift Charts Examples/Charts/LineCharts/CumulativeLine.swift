@@ -9,21 +9,25 @@ import Charts
 
 struct CumulativeLineOverview: View {
     var body: some View {
-        Chart(SalesData.last30Days, id: \.day) {
-            AreaMark(
-                x: .value("Day", $0.day, unit: .day),
-                y: .value("Sales", $0.sales)
-            )
-            .interpolationMethod(.cardinal)
-            .foregroundStyle(Color.blue.gradient)
+        Chart {
+            ForEach(LocationData.last7Days) { series in
+                ForEach(series.sales, id: \.weekday) { element in
+                    AreaMark(
+                        x: .value("Day", element.weekday, unit: .day),
+                        y: .value("Sales", element.sales)
+                    
+                    )
+                    .accessibilityLabel("\(element.weekday.formatted())")
+                    .accessibilityValue("\(element.sales)")
+                    .foregroundStyle(by: .value("City", series.city))
+                }
+            }
         }
         .chartXAxis(.hidden)
         .chartYAxis(.hidden)
+        .chartLegend(.hidden)
         .frame(height: Constants.previewChartHeight)
-        
     }
-    
-    
 }
 
 
