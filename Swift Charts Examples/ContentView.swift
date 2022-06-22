@@ -4,6 +4,7 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
     @State private var selectedChartType: ChartType?
     @State var filterCategory: ChartCategory = .all
